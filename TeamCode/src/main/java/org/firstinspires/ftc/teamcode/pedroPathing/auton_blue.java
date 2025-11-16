@@ -8,11 +8,11 @@ import org.firstinspires.ftc.teamcode.Decode.AutonomousPLUS;
 @Autonomous(group = "Basic", name = "Blue Auton") //TODO name your auto
 public class _auton_blue extends AutonomousPLUS {
 
-    public void runOpMode() { // This function will run when you initialize the program
+    public void runOpMode() { 
 
         super.runOpMode(); // Robot constructor
 
-        waitForStart(); // Waits for start
+        waitForStart(); 
 
         //TODO add your step-by step code here using functions from AutonomousPLUS
         
