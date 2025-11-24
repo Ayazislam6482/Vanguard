@@ -1,60 +1,29 @@
 package org.firstinspires.ftc.teamcode.Components;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 public class Pusher {
-
-    private LinearOpMode parent;
-    private Telemetry telemetry;
 
     public Servo pusher;
 
+    private final double PUSH_UP_POS = 0.9;    // adjust for your robot
+    private final double PUSH_DOWN_POS = 0.3;   // adjust for your robot
+
     public Pusher(HardwareMap hardwareMap) {
-
-        pusher = hardwareMap.get(Servo.class,"pusher");
-
+        pusher = hardwareMap.get(Servo.class, "pusher");
     }
 
     public void initialize() {
+        pusher.setPosition(PUSH_DOWN_POS);  // start down
     }
 
-    public void push1() {
-
-        pusher.setPosition(0);
-
-    }
-
-    public void push2() {
-
-        pusher.setPosition(0);
-
-    }
-
-    public void push3() {
-
-        pusher.setPosition(0);
-
-    }
-
-    public void pushReturn() {
-
-        pusher.setPosition(0);
-
-    }
-
+    // Move to preset positions
     public void pushUp() {
-
-        pusher.setPosition(pusher.getPosition() +0.001);
-
+        pusher.setPosition(PUSH_UP_POS);
     }
 
     public void pushDown() {
-
-        pusher.setPosition(pusher.getPosition() -0.001);
-
+        pusher.setPosition(PUSH_DOWN_POS);
     }
 }

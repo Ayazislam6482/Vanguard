@@ -1,41 +1,42 @@
 package org.firstinspires.ftc.teamcode.Components;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Outtake {
 
-    private LinearOpMode parent;
-    private Telemetry telemetry;
+    public DcMotorEx outtakeMotor;
 
-    public DcMotorEx Outtake;
-
-    public void initialize(){
-
-        stop();
-        Outtake.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-    }
+    private final double FORWARD_POWER = 1.0;   // full speed forward
+    private final double REVERSE_POWER = -0.5;  // slower reverse
 
     public Outtake(HardwareMap hardwareMap) {
-
-        Outtake = hardwareMap.get(DcMotorEx.class, "Outtake");
-
+        outtakeMotor = hardwareMap.get(DcMotorEx.class, "Outtake");
     }
 
-    public void shoot(){
+    public void initialize() {
+        stop(); // ensure motor is not running
 
-        Outtake.setPower(1);
+        // Set motor direction
+        outtakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        // Brake when power is zero
+        outtakeMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
 
-    public void stop(){
-
-        Outtake.setPower(0);
-
+    // Spin forward at full speed
+    public void shootForward() {
+        outtakeMotor.setPower(FORWARD_POWER);
     }
 
+    // Spin backward at slower speed
+    public void shootReverse() {
+        outtakeMotor.setPower(REVERSE_POWER);
+    }
+
+    // Stop the motor
+    public void stop() {
+        outtakeMotor.setPower(0);
+    }
 }

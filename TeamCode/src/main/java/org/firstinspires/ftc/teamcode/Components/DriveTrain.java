@@ -15,10 +15,12 @@ public class DriveTrain {
 
     public double leftErrorAdjustment = 1.0;
     public double rightErrorAdjustment = 1.0;
-
+/*
     public LinearOpMode parent;
 
     public Telemetry telemetry;
+
+ */
 
     public DriveTrain(HardwareMap hardwareMap) {
 
