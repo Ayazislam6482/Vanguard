@@ -30,9 +30,6 @@ public class Intake {
 
         intake.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        // Uncomment if you ever want encoder-based control:
-        // intake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        // intake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
     // Pull game pieces in

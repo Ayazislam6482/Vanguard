@@ -9,21 +9,21 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(group = "Autonomous", name = "BlueAuton")
-public class BlueAuto extends OpMode {
+@Autonomous(group = "Autonomous", name = "RedAuton")
+public class RedAuto extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
 
-    private final Pose startPose = new Pose(38.82494969818913, 135.01810865191146, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(51, 97, Math.toRadians(180)); // Scoring Pose of our robot.
-    private final Pose pickup1Pose = new Pose(44, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose finish1collect = new Pose(19.2, 84, Math.toRadians(180));// Collects artifact set 1
-    private final Pose pickup2Pose = new Pose(44, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose finish2collect = new Pose(19.2, 60, Math.toRadians(180)); //Collects artifact set 2
-    private final Pose pickup3Pose = new Pose(44, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose finish3collect = new Pose(19.2, 36, Math.toRadians(180)); //Collects artifact set 3
+    private final Pose startPose = new Pose(135.01810865191146, 135.01810865191146, Math.toRadians(0)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(91, 97, Math.toRadians(0)); // Scoring Pose of our robot.
+    private final Pose pickup1Pose = new Pose(101, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose finish1collect = new Pose(120, 84, Math.toRadians(0));// Collects artifact set 1
+    private final Pose pickup2Pose = new Pose(110, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose finish2collect = new Pose(85.2, 60, Math.toRadians(0)); //Collects artifact set 2
+    private final Pose pickup3Pose = new Pose(110, 36, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose finish3collect = new Pose(85.2, 36, Math.toRadians(0)); //Collects artifact set 3
 
     private Path scorePreload;
     private PathChain grabPickup1, finishPickup1, scorePickup1, grabPickup2, finishPickup2, scorePickup2, grabPickup3, finishPickup3, scorePickup3;
