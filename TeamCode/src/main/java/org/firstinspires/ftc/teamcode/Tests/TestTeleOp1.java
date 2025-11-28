@@ -42,8 +42,8 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             // DRIVE TRAIN CONTROL
             // ----------------------------
-            double movement = -gamepad1.left_stick_y;
-            double rotation = -gamepad1.right_stick_x;
+            double movement = gamepad1.left_stick_y;
+            double rotation = gamepad1.right_stick_x;
             double strafe = gamepad1.left_stick_x;
             boolean precision = gamepad1.right_bumper;
 
