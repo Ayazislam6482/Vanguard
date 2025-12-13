@@ -34,7 +34,6 @@ import java.util.List;
  * @version 1.0, 6/26/2025
  */
 
-// hi
 @Configurable
 @TeleOp(name = "Tuning", group = "Pedro Pathing")
 public class Tuning extends SelectableOpMode {
@@ -42,8 +41,6 @@ public class Tuning extends SelectableOpMode {
 
     @IgnoreConfigurable
     static PoseHistory poseHistory;
-
-    int a = 0;
 
     @IgnoreConfigurable
     static TelemetryManager telemetryM;
