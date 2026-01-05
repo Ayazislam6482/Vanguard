@@ -16,7 +16,7 @@ public class BlueAuto extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
 
-    private final Pose startPose = new Pose(37.61846901579587, 134.5516403402187, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(38.82494969818913, 135.01810865191146, Math.toRadians(180)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(51, 97, Math.toRadians(180)); // Scoring Pose of our robot.
     private final Pose pickup1Pose = new Pose(44, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose finish1collect = new Pose(19.2, 84, Math.toRadians(180));// Collects artifact set 1

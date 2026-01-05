@@ -14,10 +14,10 @@ public class Outtake {
     public DcMotorEx shooterMotor;
 
     // ---------- Shooter angle presets ----------
-    private final double ANGLE_1 = 0.2; // start
-    private final double ANGLE_2 = 0.4;
-    private final double ANGLE_3 = 0.6;
-    private final double ANGLE_4 = 0.8;
+    private final double ANGLE_1 = 1; // start
+    private final double ANGLE_2 = 0.95;
+    private final double ANGLE_3 = 0.9;
+    private final double ANGLE_4 = .85;
 
     // ---------- Turret rotation speed ----------
     private final double TURRET_SPEED = 0.6;
