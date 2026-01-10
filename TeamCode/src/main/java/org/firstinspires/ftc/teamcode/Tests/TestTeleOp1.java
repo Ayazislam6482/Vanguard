@@ -36,8 +36,7 @@ public class TestTeleOp1 extends LinearOpMode {
         drivetrain.initialize();
         intake.initialize();
         pusher.initialize();
-        toucherXD.initialize();
-        outtake.initialize();
+        toucherXD.initialize();  // Fixed: Now properly initializes without RUN_TO_POSITION error
 
         // Turret motor (legacy)
         turretMotor = hardwareMap.get(com.qualcomm.robotcore.hardware.DcMotorEx.class, "turretMotor");
@@ -80,8 +79,12 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             // PUSHER
             // ----------------------------
-            if (gamepad2.right_stick_y > 0.1) pusher.pushUp();
-            else if (gamepad2.right_stick_y < -0.1) pusher.pushDown();
+            // Using the new update method with edge detection
+            pusher.update(gamepad2);
+
+            // Alternative: Direct control with buttons (if you prefer)
+            // if (gamepad2.right_bumper) pusher.pushUp();
+            // if (gamepad2.left_bumper) pusher.pushDown();
 
             // ----------------------------
             // TOUCHERXD UPDATE
@@ -101,6 +104,8 @@ public class TestTeleOp1 extends LinearOpMode {
             telemetry.addData("Shooter Servo Angle", outtake.getShooterServoPosition());
             telemetry.addData("Lazy Susan Power", outtake.getLazySusanPower());
             telemetry.addData("Disk State", toucherXD.getCurrentState());
+            telemetry.addData("Pusher State", pusher.getStateString());
+            telemetry.addData("Pusher Position", pusher.getCurrentPosition());
             telemetry.update();
         }
     }
