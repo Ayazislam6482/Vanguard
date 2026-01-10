@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
-
+/*
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.changes;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.drawOnlyCurrent;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.draw;
@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 @Configurable
 @TeleOp(name = "Tuning", group = "Pedro Pathing")
 public class Tuning extends SelectableOpMode {
@@ -28,16 +28,16 @@ public class Tuning extends SelectableOpMode {
     @IgnoreConfigurable
     static TelemetryManager telemetryM;
 
-    @IgnoreConfigurable
+  //  @IgnoreConfigurable
     static ArrayList<String> changes = new ArrayList<>();
-
+/*
     public Tuning() {
         super("Select a Tuning OpMode", s -> {
             s.folder("Localization", l -> {
                 l.add("Localization Test", LocalizationTest::new);
                 l.add("Forward Tuner", ForwardTuner::new);
                 l.add("Lateral Tuner", LateralTuner::new);
-                l.add("Turn Tuner", TurnTuner::new);so w
+                l.add("Turn Tuner", TurnTuner::new);
             });
             s.folder("Automatic", a -> {
                 a.add("Forward Velocity Tuner", ForwardVelocityTuner::new);
@@ -91,3 +91,4 @@ public class Tuning extends SelectableOpMode {
         follower.setTeleOpDrive(0,0,0,true);
     }
 }
+*/
