@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.Intake;
@@ -20,8 +18,8 @@ public class TestTeleOp1 extends LinearOpMode {
     private ToucherXD toucherXD;
     private Outtake outtake;
 
-    // Turret Hardware (keep existing for legacy)
-    private DcMotorEx turretMotor;
+    // Turret Hardware (legacy)
+    private com.qualcomm.robotcore.hardware.DcMotorEx turretMotor;
 
     @Override
     public void runOpMode() {
@@ -33,16 +31,16 @@ public class TestTeleOp1 extends LinearOpMode {
         intake = new Intake(hardwareMap);
         pusher = new Pusher(hardwareMap);
         toucherXD = new ToucherXD(hardwareMap);
-        outtake = new Outtake(hardwareMap); // NEW
+        outtake = new Outtake(hardwareMap); // NEW Outtake class
 
         drivetrain.initialize();
         intake.initialize();
         pusher.initialize();
         toucherXD.initialize();
-        outtake.initialize(); // initialize Outtake
+        outtake.initialize();
 
-        // Turret hardware
-        turretMotor = hardwareMap.get(DcMotorEx.class, "turretMotor");
+        // Turret motor (legacy)
+        turretMotor = hardwareMap.get(com.qualcomm.robotcore.hardware.DcMotorEx.class, "turretMotor");
         turretMotor.setPower(0);
 
         telemetry.addLine("READY...");
@@ -55,7 +53,7 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             // DRIVING
             // ----------------------------
-            double movement = -gamepad1.left_stick_y; // Forward/back
+            double movement = -gamepad1.left_stick_y;
             double rotation = gamepad1.right_stick_x;
             double strafe   = gamepad1.left_stick_x;
             boolean precision = gamepad1.right_bumper;
@@ -70,7 +68,7 @@ public class TestTeleOp1 extends LinearOpMode {
             else intake.stop();
 
             // ----------------------------
-            // TURRET ROTATION
+            // TURRET ROTATION (legacy)
             // ----------------------------
             if (gamepad2.left_trigger > 0.1)
                 turretMotor.setPower(-0.5);

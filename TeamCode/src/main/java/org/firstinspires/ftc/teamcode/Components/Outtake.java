@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Components;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -17,7 +18,7 @@ public class Outtake {
     // ---------- Hardware ----------
     private final DcMotorEx shooterMotor;  // spins shooter
     public final Servo shooterServo;       // angle adjustment
-    public final Servo lazySusanServo;     // continuous rotation
+    public final CRServo lazySusanServo;   // continuous rotation servo
 
     // ---------- Shooter servo angle presets ----------
     private final double ANGLE_1 = 0.2; // X button
@@ -26,7 +27,7 @@ public class Outtake {
     private final double ANGLE_4 = 0.8; // B button
 
     // ---------- Lazy Susan speed ----------
-    private final double LAZY_SPEED = 0.5; // range 0.0-1.0, 0.5 = stop, >0.5 = forward, <0.5 = reverse
+    private final double LAZY_SPEED = 0.5; // range -1.0 to 1.0, 0 = stop
 
     // ---------- Shooter motor power ----------
     private final double MOTOR_POWER = 1.0;
@@ -37,7 +38,7 @@ public class Outtake {
     public Outtake(HardwareMap hardwareMap) {
         shooterMotor = hardwareMap.get(DcMotorEx.class, "shooterMotor");
         shooterServo = hardwareMap.get(Servo.class, "shooterServo");
-        lazySusanServo = hardwareMap.get(Servo.class, "lazySusanServo");
+        lazySusanServo = hardwareMap.get(CRServo.class, "lazySusanServo"); // change here
     }
 
     /**
@@ -81,9 +82,7 @@ public class Outtake {
         }
     }
 
-    /**
-     * Optional getters
-     */
+    // ---------- Optional getters ----------
     public double getMotorPower() {
         return shooterMotor.getPower();
     }
