@@ -210,7 +210,7 @@ public class BlueAuto extends OpMode {
         opmodeTimer.resetTimer();
 
 
-        follower = Constants.createFollower(hardwareMap);
+      //   follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
 
