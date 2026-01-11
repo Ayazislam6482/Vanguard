@@ -38,11 +38,11 @@ public class DriveTrain {
         leftBack.setPower(0);
         rightBack.setPower(0);
 
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -69,9 +69,9 @@ public class DriveTrain {
         else
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
-        leftFront.setPower(ratio * lf * leftErrorAdjustment);
-        leftBack.setPower(ratio * lb * leftErrorAdjustment);
-        rightFront.setPower(ratio * rf * rightErrorAdjustment);
-        rightBack.setPower(ratio * rb * rightErrorAdjustment);
+        leftFront.setPower(ratio * lf * leftErrorAdjustment*1.25);
+        leftBack.setPower(ratio * lb * leftErrorAdjustment*1.25);
+        rightFront.setPower(ratio * rf * rightErrorAdjustment*1.25);
+        rightBack.setPower(ratio * rb * rightErrorAdjustment*1.25);
     }
 }
