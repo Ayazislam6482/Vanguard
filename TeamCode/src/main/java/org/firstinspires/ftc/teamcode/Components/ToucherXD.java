@@ -66,4 +66,27 @@ public class ToucherXD {
     public int getCurrentState() {
         return currentState;
     }
+    public int getCurrentEncoderPosition() {
+        return diskMotor.getCurrentPosition();
+    }
+
+    // Returns the motor's target position
+    public int getTargetPosition() {
+        return diskMotor.getTargetPosition();
+    }
+
+    // Returns whether the touch sensor is pressed
+    public boolean isTouchPressed() {
+        return touch.isPressed();
+    }
+
+    // Returns the motor power
+    public double getMotorPower() {
+        return diskMotor.getPower();
+    }
+
+    // Returns the spacing between positions
+    public int getSpacingTicks() {
+        return SPACING_TICKS;
+    }
 }

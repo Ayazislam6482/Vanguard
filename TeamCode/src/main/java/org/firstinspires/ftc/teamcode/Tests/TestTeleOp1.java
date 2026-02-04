@@ -99,6 +99,13 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             // TELEMETRY
             // ----------------------------
+            telemetry.addLine("=== TOUCHER DIAGNOSTIC PLEASE WORK===");
+            telemetry.addData("Touch Sensor Pressed", toucherXD.isTouchPressed());
+            telemetry.addData("Disk State", toucherXD.getCurrentState());
+            telemetry.addData("Target Position", toucherXD.getTargetPosition());
+            telemetry.addData("Current Position", toucherXD.getCurrentEncoderPosition());
+            telemetry.addData("Motor Power", toucherXD.getMotorPower());
+            telemetry.addData("Spacing Ticks", toucherXD.getSpacingTicks());
             telemetry.addData("Turret Power", turretMotor.getPower());
             telemetry.addData("Shooter Motor Power", outtake.getMotorPower());
             telemetry.addData("Shooter Servo Angle", outtake.getShooterServoPosition());
