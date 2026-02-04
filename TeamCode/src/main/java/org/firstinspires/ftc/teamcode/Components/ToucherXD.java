@@ -17,6 +17,8 @@ public class ToucherXD {
     private int currentState = 0;
     private boolean wasPressedLastLoop = false;
 
+    private boolean moving = false;
+
     private final double MOTOR_POWER = 0.4;
 
     public ToucherXD(HardwareMap hardwareMap) {
@@ -37,13 +39,14 @@ public class ToucherXD {
     public void update() {
         boolean pressed = touch.isPressed();
 
-        if (pressed && !wasPressedLastLoop) {
+        if (pressed && !wasPressedLastLoop && !moving) {
             advancePosition();
         }
 
         if (diskMotor.getMode() == DcMotorEx.RunMode.RUN_TO_POSITION && !diskMotor.isBusy()) {
             diskMotor.setPower(0);
             diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            moving = false;
         }
 
         wasPressedLastLoop = pressed;
@@ -51,7 +54,6 @@ public class ToucherXD {
 
     private void advancePosition() {
         currentState = (currentState + 1) % 3;
-
         int target;
         switch (currentState) {
             case 1: target = POS_1; break;
@@ -64,6 +66,8 @@ public class ToucherXD {
         diskMotor.setTargetPosition(target);
         diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         diskMotor.setPower(MOTOR_POWER);
+
+        moving = true;
     }
 
     public int getCurrentState() {
@@ -86,5 +90,7 @@ public class ToucherXD {
         diskMotor.setTargetPosition(target);
         diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         diskMotor.setPower(MOTOR_POWER);
+
+        moving = true;
     }
 }
