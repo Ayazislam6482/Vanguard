@@ -9,13 +9,16 @@ public class ToucherXD {
     private final DcMotorEx diskMotor;
     private final TouchSensor touch;
 
-    private static final int SPACING_TICKS = 800; // distance between positions
-    private static final int NUM_POSITIONS = 3;
+    // Encoder positions for each hole
+    private final int POS_0 = 100;
+    private final int POS_1 = 350;
+    private final int POS_2 = 620;
 
     private int currentState = 0;
     private boolean wasPressedLastLoop = false;
 
-    private static final double MOTOR_POWER = 0.7;
+
+    private final double MOTOR_POWER = 0.4;
 
     public ToucherXD(HardwareMap hardwareMap) {
         diskMotor = hardwareMap.get(DcMotorEx.class, "diskMotor");
@@ -29,7 +32,7 @@ public class ToucherXD {
         diskMotor.setPower(0);
 
         currentState = 0;
-        moveToState(0);
+        diskMotor.setTargetPosition(POS_0);
     }
 
     public void update() {
@@ -48,45 +51,42 @@ public class ToucherXD {
     }
 
     private void advancePosition() {
-        currentState = (currentState + 1) % NUM_POSITIONS;
-        moveToState(currentState);
-    }
+        currentState = (currentState + 1) % 3;
+        int target;
+        switch (currentState) {
+            case 1: target = POS_1; break;
+            case 2: target = POS_2; break;
+            default: target = POS_0; break;
+        }
 
-    public void moveToState(int state) {
-        if (state < 0 || state >= NUM_POSITIONS) return;
-
-        int targetPosition = state * SPACING_TICKS;
-
+        // --- REV-safe command order ---
         diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        diskMotor.setTargetPosition(targetPosition);
+        diskMotor.setTargetPosition(target);
         diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         diskMotor.setPower(MOTOR_POWER);
+
     }
 
     public int getCurrentState() {
         return currentState;
     }
-    public int getCurrentEncoderPosition() {
-        return diskMotor.getCurrentPosition();
-    }
 
-    // Returns the motor's target position
-    public int getTargetPosition() {
-        return diskMotor.getTargetPosition();
-    }
+    public void moveToState(int state) {
+        if (state < 0 || state > 2) return;
 
-    // Returns whether the touch sensor is pressed
-    public boolean isTouchPressed() {
-        return touch.isPressed();
-    }
+        currentState = state;
 
-    // Returns the motor power
-    public double getMotorPower() {
-        return diskMotor.getPower();
-    }
+        int target;
+        switch (currentState) {
+            case 1: target = POS_1; break;
+            case 2: target = POS_2; break;
+            default: target = POS_0; break;
+        }
 
-    // Returns the spacing between positions
-    public int getSpacingTicks() {
-        return SPACING_TICKS;
+        diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        diskMotor.setTargetPosition(target);
+        diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        diskMotor.setPower(MOTOR_POWER);
+
     }
 }
