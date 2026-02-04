@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.Intake;
@@ -18,8 +19,7 @@ public class TestTeleOp1 extends LinearOpMode {
     private ToucherXD toucherXD;
     private Outtake outtake;
 
-    // Turret Hardware (legacy)
-    private com.qualcomm.robotcore.hardware.DcMotorEx turretMotor;
+    private DcMotorEx turretMotor;
 
     @Override
     public void runOpMode() {
@@ -31,15 +31,14 @@ public class TestTeleOp1 extends LinearOpMode {
         intake = new Intake(hardwareMap);
         pusher = new Pusher(hardwareMap);
         toucherXD = new ToucherXD(hardwareMap);
-        outtake = new Outtake(hardwareMap); // NEW Outtake class
+        outtake = new Outtake(hardwareMap);
 
         drivetrain.initialize();
         intake.initialize();
         pusher.initialize();
-        toucherXD.initialize();  // Fixed: Now properly initializes without RUN_TO_POSITION error
+        toucherXD.initialize();
 
-        // Turret motor (legacy)
-        turretMotor = hardwareMap.get(com.qualcomm.robotcore.hardware.DcMotorEx.class, "turretMotor");
+        turretMotor = hardwareMap.get(DcMotorEx.class, "turretMotor");
         turretMotor.setPower(0);
 
         telemetry.addLine("READY...");
@@ -62,29 +61,21 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             // INTAKE
             // ----------------------------
-            if (gamepad2.dpad_up)      intake.intakeIn();
+            if (gamepad2.dpad_up) intake.intakeIn();
             else if (gamepad2.dpad_down) intake.intakeOut();
             else intake.stop();
 
             // ----------------------------
-            // TURRET ROTATION (legacy)
+            // TURRET ROTATION
             // ----------------------------
-            if (gamepad2.left_trigger > 0.1)
-                turretMotor.setPower(-0.5);
-            else if (gamepad2.right_trigger > 0.1)
-                turretMotor.setPower(0.5);
-            else
-                turretMotor.setPower(0);
+            if (gamepad2.left_trigger > 0.1) turretMotor.setPower(-0.5);
+            else if (gamepad2.right_trigger > 0.1) turretMotor.setPower(0.5);
+            else turretMotor.setPower(0);
 
             // ----------------------------
             // PUSHER
             // ----------------------------
-            // Using the new update method with edge detection
             pusher.update(gamepad2);
-
-            // Alternative: Direct control with buttons (if you prefer)
-            // if (gamepad2.right_bumper) pusher.pushUp();
-            // if (gamepad2.left_bumper) pusher.pushDown();
 
             // ----------------------------
             // TOUCHERXD UPDATE
@@ -92,20 +83,13 @@ public class TestTeleOp1 extends LinearOpMode {
             toucherXD.update();
 
             // ----------------------------
-            // OUTTAKE UPDATE (shooter + Lazy Susan)
+            // OUTTAKE UPDATE
             // ----------------------------
             outtake.update(gamepad2);
 
             // ----------------------------
             // TELEMETRY
             // ----------------------------
-            telemetry.addLine("=== TOUCHER DIAGNOSTIC PLEASE WORK===");
-            telemetry.addData("Touch Sensor Pressed", toucherXD.isTouchPressed());
-            telemetry.addData("Disk State", toucherXD.getCurrentState());
-            telemetry.addData("Target Position", toucherXD.getTargetPosition());
-            telemetry.addData("Current Position", toucherXD.getCurrentEncoderPosition());
-            telemetry.addData("Motor Power", toucherXD.getMotorPower());
-            telemetry.addData("Spacing Ticks", toucherXD.getSpacingTicks());
             telemetry.addData("Turret Power", turretMotor.getPower());
             telemetry.addData("Shooter Motor Power", outtake.getMotorPower());
             telemetry.addData("Shooter Servo Angle", outtake.getShooterServoPosition());
@@ -113,6 +97,17 @@ public class TestTeleOp1 extends LinearOpMode {
             telemetry.addData("Disk State", toucherXD.getCurrentState());
             telemetry.addData("Pusher State", pusher.getStateString());
             telemetry.addData("Pusher Position", pusher.getCurrentPosition());
+
+            // ----------------------------
+            // TOUCHER DIAGNOSTIC TELEMETRY
+            // ----------------------------
+            telemetry.addLine("=== TOUCHER DIAGNOSTIC ===");
+            telemetry.addData("Touch Sensor Pressed", toucherXD.isTouchPressed());
+            telemetry.addData("Target Position", toucherXD.getTargetPosition());
+            telemetry.addData("Current Position", toucherXD.getCurrentEncoderPosition());
+            telemetry.addData("Motor Power", toucherXD.getMotorPower());
+            telemetry.addData("Spacing Ticks", toucherXD.getSpacingTicks());
+
             telemetry.update();
         }
     }
