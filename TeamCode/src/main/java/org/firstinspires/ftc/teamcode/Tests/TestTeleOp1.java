@@ -94,7 +94,6 @@ public class TestTeleOp1 extends LinearOpMode {
             telemetry.addData("Shooter Motor Power", outtake.getMotorPower());
             telemetry.addData("Shooter Servo Angle", outtake.getShooterServoPosition());
             telemetry.addData("Lazy Susan Power", outtake.getLazySusanPower());
-            telemetry.addData("Disk State", toucherXD.getCurrentState());
             telemetry.addData("Pusher State", pusher.getStateString());
             telemetry.addData("Pusher Position", pusher.getCurrentPosition());
 

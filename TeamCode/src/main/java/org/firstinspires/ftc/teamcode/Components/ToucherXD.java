@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,10 +11,10 @@ public class ToucherXD {
     private final DcMotorEx diskMotor;
     private final DigitalChannel touch;
 
-    private static final int SPACING_TICKS = 250; // distance between positions
-    private static final int NUM_POSITIONS = 3;
+    private static final int SPACING_TICKS = 50; // distance between positions
+   // private static final int NUM_POSITIONS = 3;
 
-    private int currentState = 0;
+    //private int currentState = 0;
     private boolean wasPressedLastLoop = false;
 
     private static final double MOTOR_POWER = 0.4;
@@ -30,15 +31,15 @@ public class ToucherXD {
         diskMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         diskMotor.setPower(0);
 
-        currentState = 0;
-        moveToState(0);
+      //  currentState = 0;
+       // moveToState(0);
     }
 
     public void update() {
         boolean pressed = !touch.getState();
 
         if (pressed && !wasPressedLastLoop) {
-            advancePosition();
+            movenextstep();
         }
 
         if (diskMotor.getMode() == DcMotorEx.RunMode.RUN_TO_POSITION && !diskMotor.isBusy()) {
@@ -49,6 +50,15 @@ public class ToucherXD {
         wasPressedLastLoop = pressed;
     }
 
+    private void movenextstep() {
+        int currentPOS = diskMotor.getCurrentPosition();
+        int targetPOS = currentPOS + SPACING_TICKS;
+        diskMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        diskMotor.setTargetPosition(targetPOS);
+        diskMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        diskMotor.setPower(MOTOR_POWER);
+    }
+/*
     private void advancePosition() {
         currentState = (currentState + 1) % NUM_POSITIONS;
         moveToState(currentState);
@@ -57,7 +67,7 @@ public class ToucherXD {
     public void moveToState(int state) {
         if (state < 0 || state >= NUM_POSITIONS) return;
 
-        int targetPosition = state * SPACING_TICKS;
+        int targetPosition = state + SPACING_TICKS ;
 
         diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         diskMotor.setTargetPosition(targetPosition);
@@ -68,7 +78,7 @@ public class ToucherXD {
     public int getCurrentState() {
         return currentState;
     }
-
+*/
     // -------------------------
     // Diagnostic getters
     // -------------------------
