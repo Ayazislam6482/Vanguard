@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class ToucherXD {
 
     private final DcMotorEx diskMotor;
-    private final TouchSensor touch;
+    private final DigitalChannel touch;
 
     private static final int SPACING_TICKS = 250; // distance between positions
     private static final int NUM_POSITIONS = 3;
@@ -19,7 +20,8 @@ public class ToucherXD {
 
     public ToucherXD(HardwareMap hardwareMap) {
         diskMotor = hardwareMap.get(DcMotorEx.class, "diskMotor");
-        touch = hardwareMap.get(TouchSensor.class, "toucherSensor");
+        touch = hardwareMap.get(DigitalChannel.class, "toucherSensor");
+        touch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     public void initialize() {
@@ -33,7 +35,7 @@ public class ToucherXD {
     }
 
     public void update() {
-        boolean pressed = touch.isPressed();
+        boolean pressed = !touch.getState();
 
         if (pressed && !wasPressedLastLoop) {
             advancePosition();
@@ -79,8 +81,10 @@ public class ToucherXD {
     }
 
     public boolean isTouchPressed() {
-        return touch.isPressed();
+        return !touch.getState();
     }
+
+
 
     public double getMotorPower() {
         return diskMotor.getPower();
