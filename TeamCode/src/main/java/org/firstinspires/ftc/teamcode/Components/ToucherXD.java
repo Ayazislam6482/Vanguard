@@ -11,13 +11,13 @@ public class ToucherXD {
     private final DcMotorEx diskMotor;
     private final DigitalChannel touch;
 
-    private static final int SPACING_TICKS = 50; // distance between positions
+    private static final int SPACING_TICKS = 178; // distance between positions
    // private static final int NUM_POSITIONS = 3;
 
     //private int currentState = 0;
     private boolean wasPressedLastLoop = false;
 
-    private static final double MOTOR_POWER = 0.4;
+    private static final double MOTOR_POWER = 1;
 
     public ToucherXD(HardwareMap hardwareMap) {
         diskMotor = hardwareMap.get(DcMotorEx.class, "diskMotor");
