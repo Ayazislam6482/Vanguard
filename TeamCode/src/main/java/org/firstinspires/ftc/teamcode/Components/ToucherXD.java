@@ -4,20 +4,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class ToucherXD {
 
-    private final DcMotorEx diskMotor;
+    public final DcMotorEx diskMotor;  // made public so teleop can access if needed
     private final DigitalChannel touch;
 
-    private static final int SPACING_TICKS = 50; // distance between positions
-   // private static final int NUM_POSITIONS = 3;
-
-    //private int currentState = 0;
-    private boolean wasPressedLastLoop = false;
-
+    private static final int SPACING_TICKS = 50; // distance per step
     private static final double MOTOR_POWER = 0.4;
+
+    private boolean wasPressedLastLoop = false; // for touch sensor edge detection
 
     public ToucherXD(HardwareMap hardwareMap) {
         diskMotor = hardwareMap.get(DcMotorEx.class, "diskMotor");
@@ -30,18 +26,18 @@ public class ToucherXD {
         diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         diskMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         diskMotor.setPower(0);
-
-      //  currentState = 0;
-       // moveToState(0);
     }
 
+    // Call every loop to check touch sensor
     public void update() {
-        boolean pressed = !touch.getState();
+        boolean pressed = !touch.getState(); // sensor active low
 
+        // Move one step on rising edge
         if (pressed && !wasPressedLastLoop) {
-            movenextstep();
+            moveOneStep();
         }
 
+        // Stop motor when target reached
         if (diskMotor.getMode() == DcMotorEx.RunMode.RUN_TO_POSITION && !diskMotor.isBusy()) {
             diskMotor.setPower(0);
             diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -50,35 +46,20 @@ public class ToucherXD {
         wasPressedLastLoop = pressed;
     }
 
-    private void movenextstep() {
+    /**
+     * Move diskMotor forward by SPACING_TICKS
+     * Can be called by teleop button or touch sensor
+     */
+    public void moveOneStep() {
         int currentPOS = diskMotor.getCurrentPosition();
         int targetPOS = currentPOS + SPACING_TICKS;
-        diskMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        diskMotor.setTargetPosition(targetPOS);
-        diskMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        diskMotor.setPower(MOTOR_POWER);
-    }
-/*
-    private void advancePosition() {
-        currentState = (currentState + 1) % NUM_POSITIONS;
-        moveToState(currentState);
-    }
-
-    public void moveToState(int state) {
-        if (state < 0 || state >= NUM_POSITIONS) return;
-
-        int targetPosition = state + SPACING_TICKS ;
 
         diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        diskMotor.setTargetPosition(targetPosition);
+        diskMotor.setTargetPosition(targetPOS);
         diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         diskMotor.setPower(MOTOR_POWER);
     }
 
-    public int getCurrentState() {
-        return currentState;
-    }
-*/
     // -------------------------
     // Diagnostic getters
     // -------------------------
@@ -93,8 +74,6 @@ public class ToucherXD {
     public boolean isTouchPressed() {
         return !touch.getState();
     }
-
-
 
     public double getMotorPower() {
         return diskMotor.getPower();

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.Intake;
 import org.firstinspires.ftc.teamcode.Components.Pusher;
@@ -18,8 +17,10 @@ public class TestTeleOp1 extends LinearOpMode {
     private Pusher pusher;
     private ToucherXD toucherXD;
     private Outtake outtake;
-
     private DcMotorEx turretMotor;
+
+    // Track previous state of gamepad1 right bumper for rising-edge detection
+    private boolean wasRBPressedLastLoop = false;
 
     @Override
     public void runOpMode() {
@@ -53,10 +54,24 @@ public class TestTeleOp1 extends LinearOpMode {
             // ----------------------------
             double movement = -gamepad1.left_stick_y;
             double rotation = gamepad1.right_stick_x;
-            double strafe   = gamepad1.left_stick_x;
-            boolean precision = gamepad1.right_bumper;
+            double strafe = gamepad1.left_stick_x;
 
-            drivetrain.TeleOpControl(precision, movement, rotation, strafe);
+            // Precision removed; always normal speed
+            drivetrain.TeleOpControl(false, movement, rotation, strafe);
+
+            // ----------------------------
+            // DISKMOTOR CONTROL via gamepad1 right bumper
+            // ----------------------------
+            boolean rbPressed = gamepad1.right_bumper;
+            if (rbPressed && !wasRBPressedLastLoop) {
+                int currentPOS = toucherXD.getCurrentEncoderPosition();
+                int targetPOS = currentPOS + toucherXD.getSpacingTicks();
+                toucherXD.diskMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+                toucherXD.diskMotor.setTargetPosition(targetPOS);
+                toucherXD.diskMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                toucherXD.diskMotor.setPower(0.4);
+            }
+            wasRBPressedLastLoop = rbPressed;
 
             // ----------------------------
             // INTAKE
@@ -78,7 +93,7 @@ public class TestTeleOp1 extends LinearOpMode {
             pusher.update(gamepad2);
 
             // ----------------------------
-            // TOUCHERXD UPDATE
+            // TOUCHERXD UPDATE (for touch sensor)
             // ----------------------------
             toucherXD.update();
 
@@ -97,9 +112,6 @@ public class TestTeleOp1 extends LinearOpMode {
             telemetry.addData("Pusher State", pusher.getStateString());
             telemetry.addData("Pusher Position", pusher.getCurrentPosition());
 
-            // ----------------------------
-            // TOUCHER DIAGNOSTIC TELEMETRY
-            // ----------------------------
             telemetry.addLine("=== TOUCHER DIAGNOSTIC ===");
             telemetry.addData("Touch Sensor Pressed", toucherXD.isTouchPressed());
             telemetry.addData("Target Position", toucherXD.getTargetPosition());
